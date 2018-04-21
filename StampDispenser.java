@@ -14,7 +14,6 @@ public class StampDispenser
      *     contain at least a 1.
      */
 
-    
     int[] stampDenominations;
     public StampDispenser(int[] stampDenominations)
     {
@@ -87,8 +86,5 @@ public class StampDispenser
         int[] denominations4 = {1};
         StampDispenser stampDispenser4 = new StampDispenser(denominations4);
         assert stampDispenser4.calcMinNumStampsToFillRequest(40) == 40;
-
-        int[] denominations5 = {4, 2 , 3 ,1};
-        StampDispenser stampDispenser5 = new StampDispenser(denominations5);
     }
 }
