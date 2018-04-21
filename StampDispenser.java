@@ -32,7 +32,6 @@ public class StampDispenser
         int[] table = new int[request + 1];
         Arrays.fill(table, Integer.MAX_VALUE);
         table[0] = 0;
-        System.out.println(Arrays.toString(table));
         for (int i = 1; i <= request; i++) {
             for (int j = 0; j < this.stampDenominations.length; j++) {
                 int currentCoinVal = this.stampDenominations[j];
@@ -41,15 +40,20 @@ public class StampDispenser
                 }
             }
         }
-        System.out.println("Result is: " + table[request]);
         return table[request];
     }
     
     public static void main(String[] args)
     {
-        int[] denominations = { 90, 30, 24, 10, 6, 2, 1 };
-        StampDispenser stampDispenser = new StampDispenser(denominations);
-        System.out.println(stampDispenser.calcMinNumStampsToFillRequest(18) == 3);
-        // System.out.println(assert stampDispenser.calcMinNumStampsToFillRequest(18) == 3);
+        // Normal case 1
+        int[] denominations1 = { 90, 30, 24, 10, 6, 2, 1 };
+        StampDispenser stampDispenser1 = new StampDispenser(denominations1);
+        assert stampDispenser1.calcMinNumStampsToFillRequest(18) == 3;
+
+        // Normal case 2
+        int[] denominations2 = {9, 6, 5, 1};
+        StampDispenser stampDispenser2 = new StampDispenser(denominations2);
+        assert stampDispenser2.calcMinNumStampsToFillRequest(11) == 2;
+
     }
 }
