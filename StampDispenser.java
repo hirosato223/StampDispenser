@@ -33,6 +33,12 @@ public class StampDispenser
         Arrays.fill(table, Integer.MIN_VALUE);
         table[0] = 0;
         System.out.println(Arrays.toString(table));
+        for (int i = 1; i <= request; i++) {
+            for (int j = 0; j < this.stampDenominations.length; j++) {
+                System.out.println("currentval and coin: " + i + " | " + this.stampDenominations[j]);
+            }
+        }
+
         return 0;
     }
     
