@@ -30,16 +30,19 @@ public class StampDispenser
     public int calcMinNumStampsToFillRequest(int request)
     {  
         int[] table = new int[request + 1];
-        Arrays.fill(table, Integer.MIN_VALUE);
+        Arrays.fill(table, Integer.MAX_VALUE);
         table[0] = 0;
         System.out.println(Arrays.toString(table));
         for (int i = 1; i <= request; i++) {
             for (int j = 0; j < this.stampDenominations.length; j++) {
-                System.out.println("currentval and coin: " + i + " | " + this.stampDenominations[j]);
+                int currentCoinVal = this.stampDenominations[j];
+                if(currentCoinVal <= i) {
+                    table[i] = Math.min(table[i], 1 + table[i - currentCoinVal]);
+                }
             }
         }
-
-        return 0;
+        System.out.println("Result is: " + table[request]);
+        return table[request];
     }
     
     public static void main(String[] args)
