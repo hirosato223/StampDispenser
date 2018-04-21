@@ -18,6 +18,26 @@ public class StampDispenser
     int[] stampDenominations;
     public StampDispenser(int[] stampDenominations)
     {
+        if (stampDenominations.length < 1) {
+            throw new IllegalArgumentException("Denominations must contain at least one value.");
+        }
+        if (stampDenominations[stampDenominations.length - 1] != 1) {
+            throw new IllegalArgumentException("Denominations should contain a 1, at the end of the list.");
+        }
+
+        int[] seen = new int[stampDenominations.length];
+
+        for (int i = 0; i < stampDenominations.length; i++) {
+            int currentDenom = stampDenominations[i];
+            if (currentDenom <= 0) { 
+                throw new IllegalArgumentException("Denominations must be positive values.");
+            } else if (i > 0 && currentDenom == seen[i - 1]) {
+                throw new IllegalArgumentException("Denominations must be unique.");
+            } else if (i > 0 && currentDenom > seen[i - 1]) { 
+                throw new IllegalArgumentException("Denominations must be in descending order.");                
+            }
+            seen[i] = currentDenom;
+        }
         this.stampDenominations = stampDenominations;
     }
  
@@ -29,13 +49,16 @@ public class StampDispenser
      */
     public int calcMinNumStampsToFillRequest(int request)
     {  
+        if (request == 0) return 0;
+        if (request == 1) return 1;
+
         int[] table = new int[request + 1];
         Arrays.fill(table, Integer.MAX_VALUE);
         table[0] = 0;
         for (int i = 1; i <= request; i++) {
             for (int j = 0; j < this.stampDenominations.length; j++) {
                 int currentCoinVal = this.stampDenominations[j];
-                if(currentCoinVal <= i) {
+                if (currentCoinVal <= i) {
                     table[i] = Math.min(table[i], 1 + table[i - currentCoinVal]);
                 }
             }
@@ -55,5 +78,17 @@ public class StampDispenser
         StampDispenser stampDispenser2 = new StampDispenser(denominations2);
         assert stampDispenser2.calcMinNumStampsToFillRequest(11) == 2;
 
+        // Edge case; expected value: 0
+        int[] denominations3 = {45, 10, 5, 3, 1};
+        StampDispenser stampDispenser3 = new StampDispenser(denominations3);
+        assert stampDispenser3.calcMinNumStampsToFillRequest(0) == 0;
+
+        // Only stamp value: 1
+        int[] denominations4 = {1};
+        StampDispenser stampDispenser4 = new StampDispenser(denominations4);
+        assert stampDispenser4.calcMinNumStampsToFillRequest(40) == 40;
+
+        int[] denominations5 = {4, 2 , 3 ,1};
+        StampDispenser stampDispenser5 = new StampDispenser(denominations5);
     }
 }
